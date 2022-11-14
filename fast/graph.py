@@ -6,19 +6,21 @@ import datetime
 def graph():
     try:
         df = pd.read_csv(
-            "Osaka.csv",
+            "大阪府_大阪_202209-202210_daily.csv",
             encoding = "utf-8",  # 文字コード
         )
 
-        dates=[]
-        for _date in df['date']:
-            date = datetime.datetime.strptime(_date,'%Y/%m/%d').date()
-            dates.append(date)
+        d = pd.to_datetime({
+        "year":df['年月'],
+        "day":df['日']
+        })
 
-        n_rainfall=df['rainfall'].values
+        df["日付"] = d # 置換
+
+        n_rainfall=df['日降水量'].values
 
         # 降水量のグラフ
-        plt.plot(dates, n_rainfall, color="lightblue")
+        plt.plot(d, n_rainfall, color="lightblue")
 
         plt.gcf().autofmt_xdate()
 
